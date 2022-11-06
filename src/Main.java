@@ -1,9 +1,10 @@
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.TreeMap;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         System.out.println("Введите выражение:");
         Scanner scanner = new Scanner(System.in);
@@ -12,17 +13,22 @@ public class Main {
         System.out.println(calc(input));
     }
 
-    public static String calc(String input) {
+    public static String calc(String input) throws IOException {
 
         String[] arr = input.split(" ");
+
+        if (arr.length == 1) {
+            throw new IOException ("строка не является математической операцией");
+        }
+
         String signs = "+,-,*,/";
         String result = "";
 
         if (signs.contains(arr[1])) {
             if (arr.length < 3) {
-                throw new RuntimeException("строка не является математической операцией");
+                throw new IOException ("строка не является математической операцией");
             } else if (arr.length > 3) {
-                throw new RuntimeException("формат математической операции не удовлетворяет заданию - " +
+                throw new IOException ("формат математической операции не удовлетворяет заданию - " +
                         "два операнда и один оператор (+, -, /, *)");
             } else {
                 checkTheInput(arr);
@@ -30,13 +36,13 @@ public class Main {
 
             // если ввели некорректный операнд
         } else {
-            throw new RuntimeException("к вводу допускаются лишь такие операторы, как: +, -, /, *");
+            throw new IOException ("к вводу допускаются лишь такие операторы, как: +, -, /, *");
         }
 
         return result;
     }
 
-    public static void checkTheInput(String[] arr) {
+    public static void checkTheInput(String[] arr) throws IOException {
 
         String romansUpToTen = "I, II, III, IV, V, VI, VII, VIII, IX, X";
         String arabicUpToTen = "0,1,2,3,4,5,6,7,8,9,10";
@@ -58,7 +64,7 @@ public class Main {
 
             // если ввели некорректное выражение
         } else {
-            throw new RuntimeException("к вводу допускаются числа от 1 до 10: либо два арабских числа, либо два римских");
+            throw new IOException ("к вводу допускаются числа от 1 до 10: либо два арабских числа, либо два римских");
         }
 
     }
